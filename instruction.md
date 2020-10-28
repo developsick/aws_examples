@@ -224,4 +224,28 @@ phases:
 ```
     
 ### 04. Codebuild 설정
-* 
+* CodeBuild 서비스로 이동   
+![part3_04_01](/images/part3/04_01.png)
+* 개발자도구 > CodeBuild > 프로젝트 빌드 > 빌드 프로젝트 생성     
+![part3_04_02](/images/part3/04_02.png)
+* 각 항목에 설정값 입력
+    * 소스 공급자 -> AWS CodeCommit, 리포지토리 -> 사용한 리포지토리 선택하면 따로 리포지토리를 https / ssh 로 연결설정 생략 가능
+    * 컴퓨팅 리소스는 가장 작게 설정해도 무방
+    * 환경 변수에 buildspec.yml에 생성한 변수명과 default값을 입력 (이후 실제 빌드시 변경 가능)    
+![part3_04_03](/images/part3/04_03.png)
+![part3_04_04](/images/part3/04_04.png)
+![part3_04_05](/images/part3/04_05.png)
+![part3_04_06](/images/part3/04_06.png)
+![part3_04_07](/images/part3/04_07.png)
+![part3_04_08](/images/part3/04_08.png)
+* 빌드 프로젝트 생성 후 리스트에 생성한 프로젝트 확인    
+![part3_04_09](/images/part3/04_09.png)
+* 생성한 빌드 프로젝트 선택 후 상세 정보 확인    
+![part3_04_10](/images/part3/04_10.png)
+* 빌드 시작 선택 > 빌드 환경 설정     
+    * 환경 변수 재정의에서 필요한 경우 환경 변수의 default값을 변경 가능 
+* 빌드를 시작하면 해당 빌드 작업에 대한 로그 확인 가능
+    * 빌드 로그 탭에서는 작업에 대한 tail 정보 확인    
+![part3_04_11](/images/part3/04_11.png)
+    * 단계 세부 정보에서 각 단계의 작업 및 buildspec에서 정의한 phase 단위로 결과 확인    
+![part3_04_12](/images/part3/04_12.png)
