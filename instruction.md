@@ -131,7 +131,97 @@
         * /src/main/resources/profiles/local/logback-spring.xml: logback을 통한 log 저장 설정 파일
         * /Dockerfile: 도커 이미지 빌드 파일
         * buildspec.yml: AWS Codebuild를 통한 build/deploy 설정 파일    
-![part2_02_01](/images/part2/02_01.png)        
-        
+![part2_02_01](/images/part2/02_01.png)
 
+### 03. source 구현
+* TCL 조기 종료로 다음 phase로 일정 변경
 
+-------------------------------------------------------------
+## Part 3. Build / Deploy app to EKS using Codebuild
+
+### 01. DockerFile 생성
+```dockerfile
+FROM openjdk:8-jdk-alpine
+
+ENV JAVA_OPTS=""
+ENV DOC_ROOT /app
+ENV VER=1.0
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+
+RUN mkdir -p /root/.ssh
+RUN chmod 700 /root/.ssh
+RUN mkdir -p /Logs
+
+ADD ./target/app-1.0.jar /app/app-1.0.jar
+
+USER root
+ENV TZ 'Asia/Seoul'
+RUN echo $TZ > /etc/timezone
+
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/app-1.0.jar"]
+``` 
+
+### 02. Buildspec.yml 생성
+* AWS console > IAM > 생성한 사용자 계정 > 보안 자격 증명 이동
+![part3_02_01](/images/part3/02_01.png)
+* 엑세스 키 > 엑세스 키 만들기
+
+* 생성된 엑세스 키의 Access key / Secret key를 확인
+  (.csv파일을 저장해두지 않으면 이후 다시 확인할 방법 없이 재생성 필요)   
+![part3_02_02](/images/part3/02_02.png)
+  
+### 03. Buildspec.yml 생성
+ * 각 단계 설명
+    * install: java runtime 및 aws 접속 정보 설정
+        * 앞서 생성한 Access key / Secret key 사
+    * pre_build: aws 접속정보로 ecr 로그인 여부 확인
+    * build: docker image 생성 및 tag 변경
+    * post-build: 생성한 docker image ecr에 push후 eks에 해당 이미지 deploy 및 service/ingress 설정
+ * 참고사항
+    * 배포 환경에 따른 buildspec.yml 변경 최소화를 위해 필요한 값을 변수처리함
+    * 변수는 이후 Codebuild에서 설정     
+```yaml
+version: 0.2
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+    commands:
+      - aws configure set aws_access_key_id $KEY_ID --profile $EKS_PROFILE
+      - aws configure set aws_secret_access_key $SECRET_KEY --profile $EKS_PROFILE
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - echo $KEY_ID
+      - echo $SECRET_KEY
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the source code using maven #
+      - mvn clean package -DskipTests -P $PROFILE
+      - echo Building the Docker image...
+      - echo $PROFILE
+      - docker build --build-arg PROFILE=$PROFILE -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER --profile $EKS_PROFILE
+      - kubectl apply -n $EKS_NAMESPACE -f k8s/app-deploy.yaml
+      - kubectl apply -n $EKS_NAMESPACE -f k8s/app-service.yaml
+      - kubectl apply -n $EKS_NAMESPACE -f k8s/app-ingress.yaml
+      - kubectl -n $EKS_NAMESPACE scale deploy $EKS_DEPLOY --replicas=0
+      - kubectl -n $EKS_NAMESPACE scale deploy $EKS_DEPLOY --replicas=$POD_REPLICAS
+```
+    
+### 04. Codebuild 설정
+* 
