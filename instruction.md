@@ -5,7 +5,9 @@
 ### 01. AWS 사용자 및 IAM 설정
 
 * IAM 서비스로 이동
-![01.01](/images/01.01.png)
+![01_01](/images/01_01.png)
+* 서비스 > 사용자 추가 이동
+![01_02](/images/01_02.png)
 
 
 ### 02. Backend Repository 생성 (Codecommit)
