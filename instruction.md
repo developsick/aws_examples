@@ -1,15 +1,17 @@
 # AWS 서비스를 활용한 K8S 기반 Web Application Deployment 자동화
 
-[Part 1. Setup AWS services](#Part-1.-Setup-AWS-services)
+[Part 1. Setup AWS services](#part-1.-setupaws-services)
 * [1-01. AWS 사용자 및 IAM 설정](#01.-AWS-사용자-및-IAM-설정)   
 * [1-02. Backend Repository 생성 (Codecommit)](#02.-Backend-Repository-생성-(Codecommit))       
 * [1-03. Backend Server Database 생성 (RDS-Mariadb)](#03.-Backend-Server-Database-생성-(RDS-Mariadb))    
 * [1-04. Docker Repository 생성 (ECR)](#04.-Docker-Repository-생성-(ECR))    
 * [1-05. Kubernetes Cluster 생성 (EKS)](#05.-Kubernetes-Cluster-생성-(EKS))    
-* [1-06. Build Pipeline 생성 (Codebuild)](#06.-Build-Pipeline-생성-(Codebuild))    
+* [1-06. Build Pipeline 생성 (Codebuild)](#06.-build-pipeline-생성-(codebuild))    
      
-[Part 2. Implement backend source code](#Part-2.-Implement-backend-source-code)
+[Part 2. Implement backend source code](##part-2.-implement-backend-source-code)
 
+
+-------------------------------------------------------------
 ## Part 1. Setup AWS services
 
 ### 01. AWS 사용자 및 IAM 설정
