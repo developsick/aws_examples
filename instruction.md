@@ -91,14 +91,14 @@
 
 ### 01. Spring Templete 생성
 * 기본 IDE로 IntelliJ 사용
-* 실행 후 New Project 선택
-![part2_01_01](/images/part2/01_01.png)
-* Project Templete에서 Spring Initializr 선택
-![part2_01_02](/images/part2/01_02.png)
+* 실행 후 New Project 선택   
+![part2_01_01](/images/part2/01_01.png)   
+* Project Templete에서 Spring Initializr 선택   
+![part2_01_02](/images/part2/01_02.png)    
 * Group명 입력 / Java version 선택
     * Group: com.app
-    * Java Version: 8
-![part2_01_03](/images/part2/01_03.png)
+    * Java Version: 8    
+![part2_01_03](/images/part2/01_03.png)    
 * Templete 생성시 사용할 Dependencies 선택
     * Developer Tools
         * Lombok
@@ -108,10 +108,10 @@
         * Spring Data JDBC
         * MyBatisFramework
     *Amazon Web Services
-        * AWS RDS
-![part2_01_04](/images/part2/01_04.png)
-* Project Name 입력 후 Templete 생성
-![part2_01_05](/images/part2/01_05.png)
+        * AWS RDS    
+![part2_01_04](/images/part2/01_04.png)    
+* Project Name 입력 후 Templete 생성    
+![part2_01_05](/images/part2/01_05.png)    
 
 ### 02. 
 
