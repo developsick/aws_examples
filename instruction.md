@@ -21,8 +21,29 @@
 ![01_06](/images/01_06.png)
 
 ### 02. Backend Repository 생성 (Codecommit)
+* CodeCommit 서비스로 이동
+![02_01](/images/02_01.png)
+* 리포지토리 > 리포지토리 생성 이동
+![02_02](/images/02_02.png)
+* 리포지토리 이름 / 설명 입력 후 생성
+![02_03](/images/02_03.png)
+* 리포지토리 생성 확인 후 연결방법 확인
+![02_04](/images/02_04.png)
+* 리포지토리 생성 후 리포지토리 리스트에서 생성한 리포지토리 확인
+![02_05](/images/02_05.png)
 
 ### 03. Backend Server Database 생성 (RDS - Mariadb)
+* RDS 서비스로 이동
+![03_01](/images/03_01.png)
+* 데이터베이스 > 데이터베이스 생성 이동
+![03_02](/images/03_02.png)
+* 데이터베이스 생성을 위한 설정값 입력
+    * 단순 환경 설정을 위해 템플릿에서 '프리 티어' 선택
+![03_03](/images/03_03.png)
+![03_04](/images/03_04.png)
+![03_05](/images/03_05.png)
+![03_06](/images/03_06.png)
+![03_07](/images/03_07.png)
 
 ### 04. Backend Source Push
 
